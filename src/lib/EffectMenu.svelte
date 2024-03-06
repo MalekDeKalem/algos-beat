@@ -9,7 +9,7 @@
 
 <div class="container">
     <button on:click={handleClick}> Effects </button>
-    <div class="dropdown" style="position: fixed; left: calc(50vw); z-index: 1000;">
+    <div class="dropdown" style="position: fixed; left: calc(50vw); z-index: 1000; overflow-y: auto; max-height: 200px;">
         <div class:show={menuOpen} class="dropdown-content">
             {#each menuItems as item}
                 <p> { item } </p>
