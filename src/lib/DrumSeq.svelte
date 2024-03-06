@@ -1,36 +1,35 @@
 <script lang="ts">
     import * as Tone from "tone";
-    import { bpmStore } from "../stores";
+    import { bpmStore, beatStore, playStore } from "../stores";
+    import { trippleDelay } from "../effects";
   
-    let bpm = 120;
-    let beat = 0;
-    let isPlaying = false;
+    // let isPlaying = false;
   
     const samples = [
       new Tone.Sampler({urls: {
           C3: '/sounds/perc_2.wav'
         },
-      }).toDestination(),
+      }),
       new Tone.Sampler({urls: {
           C3: '/sounds/perc_1.wav'
         },
-      }).toDestination(),
+      }),
       new Tone.Sampler({urls: {
           C3: '/sounds/hat.wav'
         },
-      }).toDestination(),
+      }),
       new Tone.Sampler({urls: {
           C3: '/sounds/clap.wav'
         },
-      }).toDestination(),
+      }),
       new Tone.Sampler({urls: {
           C3: '/sounds/snare.wav'
         },
-      }).toDestination(),
+      }),
           new Tone.Sampler({urls: {
           C3: '/sounds/kick.wav'
         },
-      }).toDestination()
+      })
     ];
     
   
@@ -42,16 +41,32 @@
       Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
       Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
     ]
+
+
+
+    // const triplet = new Tone.PingPongDelay({
+    //   delayTime: "8n.",
+    //   feedback: 0.5,
+    //   maxDelay: 2.0,
+    //   wet: 0.6
+    // })
+
+    // const shifter = new Tone.FrequencyShifter({
+    //   frequency: 1700,
+    //   wet: 0.6
+    // }).toDestination()
+
   
     let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
   
     Tone.Transport.scheduleRepeat(time => {
       rows.forEach((row, index) => {
         let synth = samples[index];
-        let note = row[beat];
+        synth.chain(trippleDelay);
+        let note = row[$beatStore];
         if (note.active) synth.triggerAttackRelease("C3", "8n", time);
       });
-      beat = (beat + 1) % 16;
+      beatStore.update((beat) => (beat + 1) % 16);
     }, "16n");
       
     const handleNoteClick = (rowIndex: number, noteIndex: number) => {
@@ -59,15 +74,15 @@
     };
   
     const handlePlayClick = () => {
-      if (!isPlaying) Tone.start();
-      Tone.Transport.bpm.value = bpm;
+      if (!($playStore)) Tone.start();
+      Tone.Transport.bpm.value = $bpmStore;
       Tone.Transport.start();
-      isPlaying = true;
+      playStore.update(() => true);
     };
   
     const handleStopClick = () => {
       Tone.Transport.stop();
-      isPlaying = false;
+      playStore.update(() => false);
     };
   
     const handleClearClick = () => {
@@ -78,7 +93,7 @@
       }
     }
   
-    $: if (isPlaying) {
+    $: if ($playStore) {
       Tone.Transport.bpm.value = $bpmStore;
     }
   
@@ -95,7 +110,7 @@
     <div class="container">
       <div class="beat-indicators">
         {#each beatIndicators as beatIndicator, bi}
-          <div class="beat-indicator {bi === beat ? 'live' : ''}"></div>
+          <div class="beat-indicator {bi === $beatStore ? 'live' : ''}"></div>
         {/each}
       </div>
   
