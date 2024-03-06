@@ -3,7 +3,7 @@
   import EffectMenu from "./lib/EffectMenu.svelte";
 </script>
 
-<div class="container">
+<div>
   <DrumSeq />
   <EffectMenu />
 </div>

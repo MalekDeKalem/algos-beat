@@ -9,7 +9,7 @@
 
 <div class="container">
     <button on:click={handleClick}> Effects </button>
-    <div class="dropdown" style="position: fixed; top: 50px; left: 10px; z-index: 1000;">
+    <div class="dropdown" style="position: fixed; left: calc(50vw); z-index: 1000;">
         <div class:show={menuOpen} class="dropdown-content">
             {#each menuItems as item}
                 <p> { item } </p>
@@ -28,6 +28,8 @@
       background-color: #242424;
       border: 1px solid #2BE127;
       z-index: 1000;
+      top: calc(100% + 5px); /* Position below the button */
+      left: 1000px; 
     }
     
     .dropdown-content.show {
