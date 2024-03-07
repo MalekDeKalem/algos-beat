@@ -1,6 +1,22 @@
 <script lang="ts">
+    import MenuItem from "./MenuItem.svelte";
     let menuOpen = false;
-    const menuItems = ["About", "Base", "Blog", "Contact", "Custom", "Support", "Tools", "Boats", "Cars", "Bikes", "Sheds", "Billygoats", "Zebras", "Tennis Shoes", "New Zealand"];
+    // const menuItems = ["TrippleDelay", "FreeStudioVerb", "NotAPhase"];
+    const menuItems = [
+        {
+            id: 0,
+            effectName: "TrippleDelay"
+        },
+        {
+            id: 1,
+            effectName: "FreeStudioVerb"
+        },
+        {
+            id: 2,
+            effectName: "NotAPhase"
+        },
+    ];
+
 
     const handleClick = () => {
         menuOpen = !menuOpen;
@@ -11,9 +27,10 @@
     <button on:click={handleClick}> Effects </button>
     <div class="dropdown">
         <div class:show={menuOpen} class="dropdown-content">
-            {#each menuItems as item}
+            {#each menuItems as item (item.id)}
                 <div class="clickable">
-                    <p> { item } </p>
+                    <!-- svelte-ignore missing-declaration -->
+                    <MenuItem {...item} />
                 </div>
             {/each}
         </div>

@@ -16,25 +16,25 @@ const freestudioverb = new Tone.Freeverb({
     dampening: 1000
 });
 
-const alien = new Tone.Distortion({
+const dist = new Tone.Distortion({
     distortion: 0.9,
     oversample: "2x",
     wet: 0.6
 });
 
-const bitcrusher = new Tone.Phaser({
+const phase = new Tone.Phaser({
     frequency: 500,
     baseFrequency: 440,
     octaves: 3,
     wet: 0.5
-}).connect(trippleDelay);
+}).connect(dist);
 
 
 
 
 
 export const effects = [
-    trippleDelay.toDestination(),
-    freestudioverb.toDestination(),
-    bitcrusher.toDestination()
+    trippleDelay,
+    freestudioverb,
+    phase
 ]

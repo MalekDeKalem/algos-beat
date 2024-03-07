@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as Tone from "tone";
-    import { bpmStore, beatStore, playStore } from "../stores";
+    import { bpmStore, beatStore, playStore, drumEffectStore } from "../stores";
     import { effects } from "../effects";
   
     // let isPlaying = false;
@@ -41,28 +41,13 @@
       Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
       Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
     ]
-
-
-
-    // const triplet = new Tone.PingPongDelay({
-    //   delayTime: "8n.",
-    //   feedback: 0.5,
-    //   maxDelay: 2.0,
-    //   wet: 0.6
-    // })
-
-    // const shifter = new Tone.FrequencyShifter({
-    //   frequency: 1700,
-    //   wet: 0.6
-    // }).toDestination()
-
   
     let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
   
     Tone.Transport.scheduleRepeat(time => {
       rows.forEach((row, index) => {
         let synth = samples[index];
-        synth.chain(effects[2]);
+        synth.chain(effects[$drumEffectStore].toDestination());
         let note = row[$beatStore];
         if (note.active) synth.triggerAttackRelease("C3", "8n", time);
       });
