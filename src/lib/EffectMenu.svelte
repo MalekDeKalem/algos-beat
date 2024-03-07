@@ -12,7 +12,9 @@
     <div class="dropdown">
         <div class:show={menuOpen} class="dropdown-content">
             {#each menuItems as item}
-                <p> { item } </p>
+                <div class="clickable">
+                    <p> { item } </p>
+                </div>
             {/each}
         </div>
     </div>
@@ -50,11 +52,11 @@
       z-index: 1001; /* Ensure button is above the dropdown */
     }
 
-    p {
+    .clickable {
         color: azure;
     }
 
-    p:hover {
+    .clickable:hover {
         opacity: 0.5;
         cursor: pointer;
     }
