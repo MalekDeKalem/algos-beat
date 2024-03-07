@@ -3,7 +3,6 @@
     import { bpmStore, beatStore, playStore, drumEffectStore } from "../stores";
     import { effects } from "../effects";
   
-    // let isPlaying = false;
   
     const samples = [
       new Tone.Sampler({urls: {
@@ -81,9 +80,9 @@
     $: if ($playStore) {
       Tone.Transport.bpm.value = $bpmStore;
     }
-  
+
+
     
-  
     
   </script>
   
