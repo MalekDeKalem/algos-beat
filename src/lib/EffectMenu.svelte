@@ -9,7 +9,7 @@
 
 <div class="container">
     <button on:click={handleClick}> Effects </button>
-    <div class="dropdown" style="position: fixed; left: calc(50vw); z-index: 1000; overflow-y: auto; max-height: 200px;">
+    <div class="dropdown">
         <div class:show={menuOpen} class="dropdown-content">
             {#each menuItems as item}
                 <p> { item } </p>
@@ -21,6 +21,14 @@
 <style>
     .container {
       position: relative;
+    }
+
+    .dropdown {
+        position: fixed;
+        left: calc(50vw);
+        z-index: 1000;
+        overflow-y: auto;
+        max-height: 200px;
     }
 
     .dropdown-content {
@@ -40,5 +48,14 @@
     button {
       position: relative;
       z-index: 1001; /* Ensure button is above the dropdown */
+    }
+
+    p {
+        color: azure;
+    }
+
+    p:hover {
+        opacity: 0.5;
+        cursor: pointer;
     }
 </style>

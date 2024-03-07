@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as Tone from "tone";
     import { bpmStore, beatStore, playStore } from "../stores";
-    import { trippleDelay } from "../effects";
+    import { effects } from "../effects";
   
     // let isPlaying = false;
   
@@ -62,7 +62,7 @@
     Tone.Transport.scheduleRepeat(time => {
       rows.forEach((row, index) => {
         let synth = samples[index];
-        synth.chain(trippleDelay);
+        synth.chain(effects[2]);
         let note = row[$beatStore];
         if (note.active) synth.triggerAttackRelease("C3", "8n", time);
       });
