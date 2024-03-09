@@ -7,11 +7,13 @@
     const handleClick = () => {
         drumEffectStore.set(id);
     }
+
+    const handleEffectSelect = (effectId: number) => {
+
+    }
 </script>
 
 
 <div>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <p on:click={handleClick}> { effectName } </p>
+    <a on:click={handleClick}> { effectName } </a>
 </div>

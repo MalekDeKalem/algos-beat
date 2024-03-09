@@ -29,8 +29,23 @@ const phase = new Tone.Phaser({
     wet: 0.5
 }).connect(dist);
 
-
-
+export const drumEffectChain = [
+    {
+        id: 0,
+        effectName: "TrippleDelay",
+        effect: trippleDelay
+    },
+    {
+        id: 1,
+        effectName: "FreeStudioVerb",
+        effect: freestudioverb
+    },
+    {
+        id: 2,
+        effectName: "PhaseDistrd",
+        effect: phase
+    }
+]
 
 
 export const effects = [
@@ -38,3 +53,26 @@ export const effects = [
     freestudioverb,
     phase
 ]
+
+
+// export const effects2 = [
+//     {
+//         id: 0,
+//         effectName: 'TrippleDelay',
+//         fx_chain: [
+//             new Tone.Distortion({
+//                 distortion: 0.9,
+//                 oversample: "2x",
+//                 wet: 0.6
+//             }),
+            
+//             new Tone.Phaser({
+//                 frequency: 500,
+//                 baseFrequency: 440,
+//                 octaves: 3,
+//                 wet: 0.5
+//             }).connect(dist)
+//         ]
+
+//     }
+// ]
