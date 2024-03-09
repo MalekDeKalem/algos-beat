@@ -1,4 +1,5 @@
 import * as Tone from "tone";
+import type { Effect } from "./Resource";
 
 
 
@@ -29,7 +30,7 @@ const phase = new Tone.Phaser({
     wet: 0.5
 }).connect(dist);
 
-export const drumEffectChain = [
+export const drumEffectChain: Effect[] = [
     {
         id: 0,
         effectName: "TrippleDelay",

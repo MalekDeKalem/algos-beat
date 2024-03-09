@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as Tone from "tone";
     import { bpmStore, beatStore, playStore, drumEffectStore } from "../stores";
-    import { effects } from "../effects";
+    import { drumEffectChain, effects } from "../effects";
   
   
     const samples = [
@@ -46,7 +46,7 @@
     Tone.Transport.scheduleRepeat(time => {
       rows.forEach((row, index) => {
         let synth = samples[index];
-        synth.chain(effects[$drumEffectStore].toDestination());
+        synth.chain(drumEffectChain[$drumEffectStore].effect.toDestination());
         let note = row[$beatStore];
         if (note.active) synth.triggerAttackRelease("C3", "8n", time);
       });

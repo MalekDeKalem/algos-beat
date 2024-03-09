@@ -1,23 +1,7 @@
 <script lang="ts">
+    import { drumEffectChain } from "../effects";
     import MenuItem from "./MenuItem.svelte";
     let menuOpen = false;
-    // const menuItems = ["TrippleDelay", "FreeStudioVerb", "NotAPhase"];
-    const menuItems = [
-        {
-            id: 0,
-            effectName: "TrippleDelay"
-        },
-        {
-            id: 1,
-            effectName: "FreeStudioVerb"
-        },
-        {
-            id: 2,
-            effectName: "NotAPhase"
-        },
-    ];
-
-
     const handleClick = () => {
         menuOpen = !menuOpen;
     }
@@ -27,10 +11,10 @@
     <button on:click={handleClick}> Effects </button>
     <div class="dropdown">
         <div class:show={menuOpen} class="dropdown-content">
-            {#each menuItems as item (item.id)}
+            {#each drumEffectChain as item (item.id)}
                 <div class="clickable">
                     <!-- svelte-ignore missing-declaration -->
-                    <MenuItem {...item} />
+                    <MenuItem id={item.id} effectName={item.effectName} />
                 </div>
             {/each}
         </div>
