@@ -47,7 +47,7 @@
       rows.forEach((row, index) => {
         let synth = samples[index];
         if ($drumEffectStore !== null) {
-          synth.chain(drumEffectChain[$drumEffectStore].effect.toDestination());
+          synth.chain(drumEffectChain[$drumEffectStore].effect!.toDestination());
           let note = row[$beatStore];
           if (note.active) synth.triggerAttackRelease("C3", "8n", time);
         } else {
@@ -90,7 +90,7 @@
 
     
     
-  </script>
+</script>
   
   
   <div>

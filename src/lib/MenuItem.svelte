@@ -8,8 +8,8 @@
 
 
     const handleEffectSelect = () => {
-        if ($drumEffectStore) {
-            drumEffectChain[$drumEffectStore].effect.disconnect();
+        if ($drumEffectStore !== null) {
+            drumEffectChain[$drumEffectStore].effect!.disconnect();
             drumEffectStore.set(id);
         } else {
             drumEffectStore.set(id);

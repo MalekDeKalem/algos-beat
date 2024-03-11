@@ -2,9 +2,11 @@
     import { drumEffectChain } from "../effects";
     import MenuItem from "./MenuItem.svelte";
     let menuOpen = false;
+
     const handleClick = () => {
         menuOpen = !menuOpen;
     }
+    
 </script>
 
 <div class="container">

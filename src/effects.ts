@@ -31,6 +31,7 @@ const phase = new Tone.Phaser({
 }).connect(dist);
 
 export const drumEffectChain: Effect[] = [
+    
     {
         id: 0,
         effectName: "TrippleDelay",
@@ -49,26 +50,3 @@ export const drumEffectChain: Effect[] = [
 ]
 
 
-
-
-// export const effects2 = [
-//     {
-//         id: 0,
-//         effectName: 'TrippleDelay',
-//         fx_chain: [
-//             new Tone.Distortion({
-//                 distortion: 0.9,
-//                 oversample: "2x",
-//                 wet: 0.6
-//             }),
-            
-//             new Tone.Phaser({
-//                 frequency: 500,
-//                 baseFrequency: 440,
-//                 octaves: 3,
-//                 wet: 0.5
-//             }).connect(dist)
-//         ]
-
-//     }
-// ]
