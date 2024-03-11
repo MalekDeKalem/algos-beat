@@ -49,11 +49,6 @@ export const drumEffectChain: Effect[] = [
 ]
 
 
-export const effects = [
-    trippleDelay,
-    freestudioverb,
-    phase
-]
 
 
 // export const effects2 = [
