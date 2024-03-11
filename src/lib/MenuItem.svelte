@@ -9,7 +9,7 @@
 
     const handleEffectSelect = () => {
         if ($drumEffectStore !== null) {
-            drumEffectChain[$drumEffectStore].effect!.disconnect();
+            drumEffectChain[$drumEffectStore].effect.disconnect();
             drumEffectStore.set(id);
         } else {
             drumEffectStore.set(id);

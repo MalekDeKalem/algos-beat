@@ -1,18 +1,31 @@
 <script lang="ts">
     import { drumEffectChain } from "../effects";
+    import { drumEffectStore } from "../stores";
     import MenuItem from "./MenuItem.svelte";
     let menuOpen = false;
 
     const handleClick = () => {
         menuOpen = !menuOpen;
     }
-    
+
+    const handleInitEffect = () => {
+
+        drumEffectChain[$drumEffectStore!].effect.disconnect();
+        drumEffectStore.set(null);
+    }
+
 </script>
 
 <div class="container">
     <button on:click={handleClick}> Effects </button>
     <div class="dropdown">
         <div class:show={menuOpen} class="dropdown-content">
+            <div class="clickable">
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <!-- svelte-ignore a11y-missing-attribute -->
+                <!-- svelte-ignore a11y-no-static-element-interactions -->
+                <a on:click={handleInitEffect}> Init </a>
+            </div>
             {#each drumEffectChain as item (item.id)}
                 <div class="clickable">
                     <!-- svelte-ignore missing-declaration -->
