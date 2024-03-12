@@ -30,8 +30,37 @@ const phase = new Tone.Phaser({
     wet: 0.5
 }).connect(dist);
 
+const cheby = new Tone.Chebyshev({
+    order: 15,
+    oversample: "2x",
+    wet: 0.6
+});
+
+const auto = new Tone.AutoWah({
+    baseFrequency: 440,
+    follower: "4n",
+    octaves: 3,
+    wet: 1.0
+});
+
+const jc = new Tone.JCReverb({
+    roomSize: 0.4,
+    wet: 0.5
+});
+
+const widener = new Tone.Chorus({
+    delayTime: 100,
+    depth: 0.4,
+    feedback: 0.5,
+    frequency: 440,
+    spread: 180,
+    type: "sine",
+    wet: 0.7
+}).connect(jc);
+
+
+
 export const drumEffectChain: Effect[] = [
-    
     {
         id: 0,
         effectName: "TrippleDelay",
@@ -46,6 +75,21 @@ export const drumEffectChain: Effect[] = [
         id: 2,
         effectName: "PhaseDistrd",
         effect: phase
+    },
+    {
+        id: 3,
+        effectName: "Cheby",
+        effect: cheby
+    },
+    {
+        id: 4,
+        effectName: "Autobots",
+        effect: auto
+    },
+    {
+        id: 5,
+        effectName: "Widener",
+        effect: widener
     }
 ]
 
