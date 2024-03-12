@@ -3,7 +3,7 @@
     import { drumEffectStore } from '../stores'
     export let id: number;
     export let effectName: String;
-
+    export let handleClickItem: () => void
 
 
 
@@ -14,6 +14,8 @@
         } else {
             drumEffectStore.set(id);
         }
+
+        handleClickItem();
 
     }
 </script>

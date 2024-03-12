@@ -14,6 +14,7 @@
         drumEffectStore.set(null);
     }
 
+
 </script>
 
 <div class="container">
@@ -29,7 +30,7 @@
             {#each drumEffectChain as item (item.id)}
                 <div class="clickable">
                     <!-- svelte-ignore missing-declaration -->
-                    <MenuItem id={item.id} effectName={item.effectName} />
+                    <MenuItem id={item.id} effectName={item.effectName} handleClickItem={handleClick}/>
                 </div>
             {/each}
         </div>
