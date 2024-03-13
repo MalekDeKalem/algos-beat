@@ -21,7 +21,7 @@ const dist = new Tone.Distortion({
     distortion: 0.9,
     oversample: "2x",
     wet: 0.6
-});
+}).toDestination();
 
 const phase = new Tone.Phaser({
     frequency: 500,
@@ -44,9 +44,9 @@ const auto = new Tone.AutoWah({
 });
 
 const jc = new Tone.JCReverb({
-    roomSize: 0.4,
-    wet: 0.5
-});
+    roomSize: 0.05,
+    wet: 0.2
+}).toDestination();
 
 const widener = new Tone.Chorus({
     delayTime: 10,
@@ -59,13 +59,13 @@ const widener = new Tone.Chorus({
 }).connect(jc);
 
 const filter = new Tone.Filter({
-    frequency: 1000,
+    frequency: 700,
     type: "lowpass",
-});
+}).toDestination();
 
 const verb = new Tone.Reverb({
     decay: 5,
-    wet: 0.6
+    wet: 0.4
 }).connect(filter);
 
 
