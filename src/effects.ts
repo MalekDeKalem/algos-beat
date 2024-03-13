@@ -49,14 +49,26 @@ const jc = new Tone.JCReverb({
 });
 
 const widener = new Tone.Chorus({
-    delayTime: 100,
+    delayTime: 10,
     depth: 0.4,
-    feedback: 0.5,
+    feedback: 0.4,
     frequency: 440,
-    spread: 180,
+    spread: 45,
     type: "sine",
-    wet: 0.7
+    wet: 0.4
 }).connect(jc);
+
+const filter = new Tone.Filter({
+    frequency: 1000,
+    type: "lowpass",
+});
+
+const verb = new Tone.Reverb({
+    decay: 5,
+    wet: 0.6
+}).connect(filter);
+
+
 
 
 
@@ -90,6 +102,11 @@ export const drumEffectChain: Effect[] = [
         id: 5,
         effectName: "Widener",
         effect: widener
+    },
+    {
+        id: 6,
+        effectName: "Rumble",
+        effect: verb
     }
 ]
 
