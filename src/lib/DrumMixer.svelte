@@ -1,10 +1,10 @@
 <script lang="ts">
-    export let gainKick: number;
-    export let gainSnare: number;
-    export let gainClap: number;
-    export let gainHat: number;
-    export let gainPerc: number;
-    export let gainPerc2: number;
+    export let setGainKick: (n: number) => void;
+    export let setGainSnare: (n: number) => void;
+    export let setGainClap: (n: number) => void;
+    export let setGainHat: (n: number) => void;
+    export let setGainPerc: (n: number) => void;
+    export let setGainPerc2: (n: number) => void;
 </script>
 
 
@@ -18,5 +18,5 @@
 
 
 <style>
-    
+
 </style>

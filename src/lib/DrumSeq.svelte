@@ -42,6 +42,8 @@
     ]
   
     let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
+
+    let gainDrums = [1, 1, 1, 1, 1, 1]; // Kick, Snare, Clap, Hat, Perc, Perc2
   
     Tone.Transport.scheduleRepeat(time => {
       rows.forEach((row, index) => {
@@ -82,6 +84,7 @@
         }
       }
     }
+
   
     $: if ($playStore) {
       Tone.Transport.bpm.value = $bpmStore;
