@@ -43,8 +43,10 @@
   
     let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
 
-    let gainDrums = [1, 1, 1, 1, 1, 1]; // Kick, Snare, Clap, Hat, Perc, Perc2
-  
+
+    let gainDrums = [1, 1, 1, 1, 1, 1];
+    const gainNodes = gainDrums.map(gain => new Tone.Gain(gain).toDestination());
+
     Tone.Transport.scheduleRepeat(time => {
       rows.forEach((row, index) => {
         let synth = samples[index];

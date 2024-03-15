@@ -59,7 +59,7 @@ const widener = new Tone.Chorus({
 }).connect(jc);
 
 const filter = new Tone.Filter({
-    frequency: 700,
+    frequency: 100,
     type: "lowpass",
 }).toDestination();
 
