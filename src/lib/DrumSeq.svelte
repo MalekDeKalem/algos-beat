@@ -50,14 +50,15 @@
     Tone.Transport.scheduleRepeat(time => {
       rows.forEach((row, index) => {
         let synth = samples[index];
+        let note = row[$beatStore];
+
         if ($drumEffectStore !== null) {
-          synth.chain(drumEffectChain[$drumEffectStore].effect!.toDestination());
-          let note = row[$beatStore];
+          synth.chain(drumEffectChain[$drumEffectStore].effect.toDestination());
           if (note.active) synth.triggerAttackRelease("C3", "8n", time);
         } else {
-          let note = row[$beatStore];
           if (note.active) synth.triggerAttackRelease("C3", "8n", time).toDestination();
         }
+        
 
       });
       beatStore.update((beat) => (beat + 1) % 16);
