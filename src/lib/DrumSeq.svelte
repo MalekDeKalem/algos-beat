@@ -60,7 +60,7 @@
         // }
 
         if ($drumEffectStore !== null) {
-          synth.chain(drumEffectChain[$drumEffectStore].effect, gainNodes[index], Tone.Destination);
+          synth.chain(gainNodes[index], drumEffectChain[$drumEffectStore].effect, Tone.Destination);
           if (note.active) synth.triggerAttackRelease("C3", "8n", time);
         } else {
           synth.chain(gainNodes[index], Tone.Destination);
