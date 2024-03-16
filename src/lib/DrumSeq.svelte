@@ -44,19 +44,27 @@
     let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
 
 
-    let gainDrums = [1, 1, 1, 1, 1, 1];
-    const gainNodes = gainDrums.map(gain => new Tone.Gain(gain).toDestination());
+    let gainDrums = [1, 1, 1, 1, 1, 0];
+    const gainNodes = gainDrums.map(gain => new Tone.Gain(gain));
 
     Tone.Transport.scheduleRepeat(time => {
       rows.forEach((row, index) => {
         let synth = samples[index];
         let note = row[$beatStore];
 
+        // if ($drumEffectStore !== null) {
+        //   synth.chain(drumEffectChain[$drumEffectStore].effect.toDestination());
+        //   if (note.active) synth.triggerAttackRelease("C3", "8n", time);
+        // } else {
+        //   if (note.active) synth.triggerAttackRelease("C3", "8n", time).toDestination();
+        // }
+
         if ($drumEffectStore !== null) {
-          synth.chain(drumEffectChain[$drumEffectStore].effect.toDestination());
+          synth.chain(drumEffectChain[$drumEffectStore].effect, gainNodes[index], Tone.Destination);
           if (note.active) synth.triggerAttackRelease("C3", "8n", time);
         } else {
-          if (note.active) synth.triggerAttackRelease("C3", "8n", time).toDestination();
+          synth.chain(gainNodes[index], Tone.Destination);
+          if (note.active) synth.triggerAttackRelease("C3", "8n", time);
         }
         
 
