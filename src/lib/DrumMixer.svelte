@@ -12,7 +12,7 @@
 
 
 <div>
-
+    <input type="range" min="0" max="1.5" on:change={event => setGainKick(event.currentTarget.valueAsNumber)} />
 </div>
 
 

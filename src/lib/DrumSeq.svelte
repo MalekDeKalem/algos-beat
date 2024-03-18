@@ -1,105 +1,107 @@
 <script lang="ts">
-    import * as Tone from "tone";
-    import { bpmStore, beatStore, playStore, drumEffectStore } from "../stores";
-    import { drumEffectChain } from "../effects";
+  import * as Tone from "tone";
+  import { bpmStore, beatStore, playStore, drumEffectStore } from "../stores";
+  import { drumEffectChain } from "../effects";
+  import DrumMixer from "./DrumMixer.svelte";
+
+
+  const samples = [
+    new Tone.Sampler({urls: {
+        C3: '/sounds/perc_2.wav'
+      },
+    }),
+    new Tone.Sampler({urls: {
+        C3: '/sounds/perc_1.wav'
+      },
+    }),
+    new Tone.Sampler({urls: {
+        C3: '/sounds/hat.wav'
+      },
+    }),
+    new Tone.Sampler({urls: {
+        C3: '/sounds/clap.wav'
+      },
+    }),
+    new Tone.Sampler({urls: {
+        C3: '/sounds/snare.wav'
+      },
+    }),
+        new Tone.Sampler({urls: {
+        C3: '/sounds/kick.wav'
+      },
+    })
+  ];
   
-  
-    const samples = [
-      new Tone.Sampler({urls: {
-          C3: '/sounds/perc_2.wav'
-        },
-      }),
-      new Tone.Sampler({urls: {
-          C3: '/sounds/perc_1.wav'
-        },
-      }),
-      new Tone.Sampler({urls: {
-          C3: '/sounds/hat.wav'
-        },
-      }),
-      new Tone.Sampler({urls: {
-          C3: '/sounds/clap.wav'
-        },
-      }),
-      new Tone.Sampler({urls: {
-          C3: '/sounds/snare.wav'
-        },
-      }),
-          new Tone.Sampler({urls: {
-          C3: '/sounds/kick.wav'
-        },
-      })
-    ];
-    
-  
-    let rows = [
-      Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
-      Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
-      Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
-      Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
-      Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
-      Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
-    ]
-  
-    let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
+
+  let rows = [
+    Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
+    Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
+    Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
+    Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
+    Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
+    Array.from({ length: 16 }, (_, i) => ({ note: "C3", active: false })),
+  ]
+
+  let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
 
 
-    let gainDrums = [1, 1, 1, 1, 1, 0];
-    const gainNodes = gainDrums.map(gain => new Tone.Gain(gain));
 
-    Tone.Transport.scheduleRepeat(time => {
-      rows.forEach((row, index) => {
-        let synth = samples[index];
-        let note = row[$beatStore];
 
-        // if ($drumEffectStore !== null) {
-        //   synth.chain(drumEffectChain[$drumEffectStore].effect.toDestination());
-        //   if (note.active) synth.triggerAttackRelease("C3", "8n", time);
-        // } else {
-        //   if (note.active) synth.triggerAttackRelease("C3", "8n", time).toDestination();
-        // }
+  let gainDrums = [1, 1, 1, 1, 1, 1]; // Perc2, Perc1, Hat, Clap, Snare, Kick
+  const gainNodes = gainDrums.map(gain => new Tone.Gain(gain));
 
-        if ($drumEffectStore !== null) {
-          synth.chain(gainNodes[index], drumEffectChain[$drumEffectStore].effect, Tone.Destination);
-          if (note.active) synth.triggerAttackRelease("C3", "8n", time);
-        } else {
-          synth.chain(gainNodes[index], Tone.Destination);
-          if (note.active) synth.triggerAttackRelease("C3", "8n", time);
-        }
-        
+  Tone.Transport.scheduleRepeat(time => {
+    rows.forEach((row, index) => {
+      let synth = samples[index];
+      let note = row[$beatStore];
 
-      });
-      beatStore.update((beat) => (beat + 1) % 16);
-    }, "16n");
+      // if ($drumEffectStore !== null) {
+      //   synth.chain(drumEffectChain[$drumEffectStore].effect.toDestination());
+      //   if (note.active) synth.triggerAttackRelease("C3", "8n", time);
+      // } else {
+      //   if (note.active) synth.triggerAttackRelease("C3", "8n", time).toDestination();
+      // }
+
+      if ($drumEffectStore !== null) {
+        synth.chain(gainNodes[index], drumEffectChain[$drumEffectStore].effect, Tone.Destination);
+        if (note.active) synth.triggerAttackRelease("C3", "8n", time);
+      } else {
+        synth.chain(gainNodes[index], Tone.Destination);
+        if (note.active) synth.triggerAttackRelease("C3", "8n", time);
+      }
       
-    const handleNoteClick = (rowIndex: number, noteIndex: number) => {
-      rows[rowIndex][noteIndex].active = !rows[rowIndex][noteIndex].active;
-    };
-  
-    const handlePlayClick = () => {
-      if (!($playStore)) Tone.start();
-      Tone.Transport.bpm.value = $bpmStore;
-      Tone.Transport.start();
-      playStore.update(() => true);
-    };
-  
-    const handleStopClick = () => {
-      Tone.Transport.stop();
-      playStore.update(() => false);
-    };
-  
-    const handleClearClick = () => {
-      for (let i = 0; i < rows.length; i++) {
-        for (let j = 0; j < rows[i].length; j++) {
-          rows[i][j].active = false;
-        }
+
+    });
+    beatStore.update((beat) => (beat + 1) % 16);
+  }, "16n");
+    
+  const handleNoteClick = (rowIndex: number, noteIndex: number) => {
+    rows[rowIndex][noteIndex].active = !rows[rowIndex][noteIndex].active;
+  };
+
+  const handlePlayClick = () => {
+    if (!($playStore)) Tone.start();
+    Tone.Transport.bpm.value = $bpmStore;
+    Tone.Transport.start();
+    playStore.update(() => true);
+  };
+
+  const handleStopClick = () => {
+    Tone.Transport.stop();
+    playStore.update(() => false);
+  };
+
+  const handleClearClick = () => {
+    for (let i = 0; i < rows.length; i++) {
+      for (let j = 0; j < rows[i].length; j++) {
+        rows[i][j].active = false;
       }
     }
+  }
 
-  
-    $: if ($playStore) {
-      Tone.Transport.bpm.value = $bpmStore;
-    }
+  $: if ($playStore) {
+    Tone.Transport.bpm.value = $bpmStore;
+  }
 
 
     
@@ -133,6 +135,7 @@
     <button on:click={handlePlayClick}> Play </button>
     <button on:click={handleStopClick}> Stop </button>
     <button on:click={handleClearClick}> Clear </button>
+
   </div>
   
   <style>
