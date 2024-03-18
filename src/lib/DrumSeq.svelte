@@ -103,8 +103,10 @@
     Tone.Transport.bpm.value = $bpmStore;
   }
 
-
-    
+  const handleSetGainMixer = (n: number, id: number) => {
+    // Implement logic to update the gain value with index `id`
+    console.log(`Updating gain for element with id ${id} to value ${n}`);
+  };
     
 </script>
   
@@ -136,6 +138,14 @@
     <button on:click={handleStopClick}> Stop </button>
     <button on:click={handleClearClick}> Clear </button>
 
+
+
+    <div class="mixer-container">
+      <!-- container for the DrumMixer -->
+    </div>
+
+
+
   </div>
   
   <style>
@@ -143,6 +153,10 @@
       display: flex;
       flex-direction: row;
       margin-bottom: 1px;
+    }
+
+    .mixer-container {
+      position: absolute;
     }
   
     .container {

@@ -1,10 +1,6 @@
 <script lang="ts">
-    export let setGainKick: (n: number) => void;
-    export let setGainSnare: (n: number) => void;
-    export let setGainClap: (n: number) => void;
-    export let setGainHat: (n: number) => void;
-    export let setGainPerc: (n: number) => void;
-    export let setGainPerc2: (n: number) => void;
+    export let setGainMixer: (n: number, id: number) => void;
+    export let gainNumbers: number[]
 </script>
 
 
@@ -12,7 +8,9 @@
 
 
 <div>
-    <input type="range" min="0" max="1.5" on:change={event => setGainKick(event.currentTarget.valueAsNumber)} />
+    {#each gainNumbers as gainNumber, index}
+        <input type="range" min="0" max="1.5"/>
+    {/each}
 </div>
 
 
