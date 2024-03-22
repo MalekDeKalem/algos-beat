@@ -1,6 +1,6 @@
 <script lang="ts">
   import * as Tone from "tone";
-  import { bpmStore, beatStore, playStore, drumEffectStore } from "../stores";
+  import { bpmStore, beatStore, playStore, drumEffectStore, gainDrumStore } from "../stores";
   import { drumEffectChain } from "../effects";
   import DrumMixer from "./DrumMixer.svelte";
 
@@ -45,10 +45,7 @@
   let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
 
 
-
-
-  let gainDrums = [1, 1, 1, 1, 1, 1]; // Perc2, Perc1, Hat, Clap, Snare, Kick
-  const gainNodes = gainDrums.map(gain => new Tone.Gain(gain));
+  const gainNodes = $gainDrumStore.map(gain => new Tone.Gain(gain));
 
   Tone.Transport.scheduleRepeat(time => {
     rows.forEach((row, index) => {
