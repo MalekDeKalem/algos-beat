@@ -139,6 +139,7 @@
 
     <div class="mixer-container">
       <!-- container for the DrumMixer -->
+      <DrumMixer gainNumbers={$gainDrumStore} setGainMixer={handleSetGainMixer} />
     </div>
 
 

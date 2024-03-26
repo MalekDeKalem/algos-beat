@@ -9,7 +9,7 @@
 
 <div>
     {#each gainNumbers as gainNumber, index}
-        <input type="range" min="0" max="1.5"/>
+        <input type="range" min="0" max="1.5" step="0.1" key={index}/>
     {/each}
 </div>
 
