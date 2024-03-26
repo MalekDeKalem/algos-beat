@@ -9,9 +9,9 @@
     }
 
     const handleInitEffect = () => {
-
-        drumEffectChain[$drumEffectStore!].effect.disconnect();
-        drumEffectStore.set(null);
+      drumEffectChain[$drumEffectStore!].effect.disconnect();
+      drumEffectStore.set(null);
+      menuOpen = !menuOpen;  
     }
 
 
