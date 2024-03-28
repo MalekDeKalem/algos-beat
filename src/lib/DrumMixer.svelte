@@ -16,9 +16,22 @@
 <style>
   .vertical-slider {
     writing-mode: bt-lr;
-    appearance: slider-vertical;
-    margin: 0;
+    -webkit-appearance: slider-vertical;
+    width: 20px;
+    height: 80px;
+    margin-right: 20px;
     padding: 0;
+  }
+
+  .vertical-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid red;
+    color: red;
   }
 </style>
 
