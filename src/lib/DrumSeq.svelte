@@ -3,6 +3,7 @@
   import { bpmStore, beatStore, playStore, drumEffectStore, gainDrumStore } from "../stores";
   import { drumEffectChain } from "../effects";
   import DrumMixer from "./DrumMixer.svelte";
+  import { onMount } from 'svelte';
 
 
   const samples = [
@@ -31,6 +32,9 @@
       },
     })
   ];
+
+
+  let gainNodes;
   
 
   let rows = [
@@ -43,9 +47,29 @@
   ]
 
   let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
+  let prevDrumStore = Array.from({ length: 16});
 
 
-  const gainNodes = $gainDrumStore.map(gain => new Tone.Gain(gain));
+  //gainNodes = $gainDrumStore.map(gain => new Tone.Gain(gain));
+
+  onMount(() => {
+    gainNodes = $gainDrumStore.map(gain => new Tone.Gain(gain));
+    
+
+    return () => {
+      gainNodes.map(nodes => nodes.dispose());
+    };
+  });
+
+
+  $: if (JSON.stringify($gainDrumStore) !== JSON.stringify(prevDrumStore))  {
+    console.log($gainDrumStore);
+    prevDrumStore = $gainDrumStore.slice();
+
+    () => {
+
+    }
+  }
 
   Tone.Transport.scheduleRepeat(time => {
     rows.forEach((row, index) => {
@@ -58,6 +82,8 @@
       // } else {
       //   if (note.active) synth.triggerAttackRelease("C3", "8n", time).toDestination();
       // }
+      
+      const init_gain = new Tone.Gain(0.1);
 
       if ($drumEffectStore !== null) {
         synth.chain(gainNodes[index], drumEffectChain[$drumEffectStore].effect, Tone.Destination);
