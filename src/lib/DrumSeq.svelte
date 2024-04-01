@@ -34,7 +34,7 @@
   ];
 
 
-  let gainNodes;
+  let gainNodes: Tone.Gain[] = [];
   
 
   let rows = [
@@ -66,9 +66,15 @@
     console.log($gainDrumStore);
     prevDrumStore = $gainDrumStore.slice();
 
-    () => {
+    (() => {
 
-    }
+      gainNodes.map(nodes => nodes.dispose());
+      console.log("HEy there");
+      for (let i = 0; i < $gainDrumStore.length; i++) {
+        gainNodes[i] = new Tone.Gain($gainDrumStore[i]);
+      }
+    })();
+    
   }
 
   Tone.Transport.scheduleRepeat(time => {
