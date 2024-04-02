@@ -71,7 +71,7 @@
       gainNodes.map(nodes => nodes.dispose());
       console.log("HEy there");
       for (let i = 0; i < $gainDrumStore.length; i++) {
-        gainNodes[i] = new Tone.Gain($gainDrumStore[i]);
+        gainNodes[i] = new Tone.Gain($gainDrumStore[$gainDrumStore.length - (i+1)]);
       }
     })();
     
