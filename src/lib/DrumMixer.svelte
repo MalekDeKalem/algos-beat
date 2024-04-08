@@ -1,5 +1,6 @@
 <script lang="ts">
     import { gainDrumStore } from '../stores'
+    import Slider from '@smui/slider'
     export let setGainMixer: (n: number, id: number) => void;
     export let gainNumbers: number[];
 
@@ -17,7 +18,7 @@
 
 <div>
     {#each gainNumbers as gainNumber, index}
-        <input type="range" class="vertical-slider" min="0" max="1.5" step="0.1" key={index} on:input={(event) => handleSlider(index, event.currentTarget.valueAsNumber)} />  
+      <input type="range" class="vertical-slider" min="0" max="1.5" step="0.1" key={index} on:input={(event) => handleSlider(index, event.currentTarget.valueAsNumber)} />  
     {/each}
 </div>
 
