@@ -1,24 +1,55 @@
+
 <script lang="ts">
+import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 /*
 <Knob {min} {max} {step} {value} />
-
 */
+
+/*
+  const knob = document.getElementsByClassName('slider');
+  let num = 0;
+  
+  if (knob[0]) {
+    knob[0].style.transform = 'rotate(10deg)';
+  }
+
+  $: {
+    console.log(num);
+  }
+*/
+  let border_size = '2px';
+  let size = '50px';
+
+  // lifecycle function
+  afterUpdate(() => {
+    const knob = document.getElementById("knob");
+    const ctx = knob.getContext("2d");
+    ctx.beginPath();
+    ctx.fillStyle = "crimson";
+    ctx.arc(50, 50, 50, 0, 2 * Math.PI);
+    ctx.fill();
+  }); 
+  
+
+
 
 </script>
 
+<canvas id="knob" width="100" height="100" style="--border-size: {border_size}; --size: {size}">
 
 
+</canvas>
 
-
-<div class="slider">
-  <div class="knob">
-      <input type="range"/>
-  </div>
-</div>
 
 
 
 <style>
+
+  #knob {
+    border: var(--border-size) solid #343434;
+    width: var(--size);
+    height: var(--size);
+  }
   .slider {
     position: relative;
     width: 10em;
@@ -29,10 +60,23 @@
   }
 
   input[type="range"] {
-    positions: absolute;
-    appearance: slider-vertical;
-    margin-left: -9em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 20em;
+    appearance: slider-vertical;
+    top: 3rem;
+    outline: none;
+    background: transparent;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    background-color: azure;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px #349beb;
   }
 
   .knob {
