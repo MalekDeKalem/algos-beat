@@ -5,7 +5,7 @@
 </script>
 
 <div>
-  <Knob />
+  <Knob size={"50px"}/>
 </div>
 
 <style>

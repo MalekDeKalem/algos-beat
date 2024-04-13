@@ -18,16 +18,24 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   }
 */
   let border_size = '2px';
-  let size = '50px';
+  export let size = '100px';
 
   // lifecycle function
   afterUpdate(() => {
     const knob = document.getElementById("knob");
     const ctx = knob.getContext("2d");
     ctx.beginPath();
-    ctx.fillStyle = "crimson";
+    ctx.fillStyle = "#41404E";
     ctx.arc(50, 50, 50, 0, 2 * Math.PI);
     ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#D9D9D9";
+    ctx.lineWidth = 3;
+    ctx.arc(50, 50, 47, 7 * Math.PI / 10, 23 / 10 * Math.PI);
+    ctx.stroke();
+    ctx.closePath();
   }); 
   
 
