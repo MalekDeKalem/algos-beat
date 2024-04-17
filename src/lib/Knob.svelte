@@ -18,54 +18,53 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   }
 */
   let border_size = 2;
+
   export let size = 100;
+  export let min = 0;
+  export let max = 100;
+  export let value = 2.25;
+  export let steps = 10;
 
 
 
   let radius = size / 2;
+  let angle = (7 * Math.PI / 10) * (value + 1);
+  const startAngle = 7 * Math.PI / 10;
+  const endAngle = 23 / 10 * Math.PI;
 
+  // -8/5 Math.PI
+
+  let endX = radius + Math.cos(angle) * radius;
+  let endY = radius + Math.sin(angle) * radius;
 
   // lifecycle function
   afterUpdate(() => {
     const knob = document.getElementById("knob");
     const ctx = knob.getContext("2d");
-
-  /*
-    ctx.beginPath();
-    ctx.fillStyle = "#41404E";
-    ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.closePath();
-
-    ctx.beginPath();
-    ctx.strokeStyle = "#D9D9D9";
-    ctx.lineWidth = 3;
-    ctx.arc(radius, radius, 47, 7 * Math.PI / 10, 23 / 10 * Math.PI);
-    ctx.stroke();
-    ctx.closePath();
-
-    ctx.beginPath();
-    ctx.strokeStyle = "#D9D9D9";
-    ctx.lineWidth = 3;
-    ctx.moveTo(radius, radius);
-    ctx.lineTo(22, 85);
-    ctx.stroke();
-    ctx.closePath();
-  */
+    
+    // knob body
     ctx.beginPath();
     ctx.fillStyle = '#41404E';
     ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
     ctx.fill();
     ctx.closePath();
-
+    
+    // knob ring
     ctx.beginPath();
     ctx.strokeStyle = '#D9D9D9';
     ctx.lineWidth = size / 30;
-    ctx.arc(radius, radius, radius - size / 30, 7 * Math.PI / 10, 23 / 10 * Math.PI);
+    ctx.arc(radius, radius, radius - size / 30, startAngle, endAngle);
     ctx.stroke();
     ctx.closePath();
-
     
+    // knob line
+    ctx.beginPath();
+    ctx.strokeStyle = '#D9D9D9';
+    ctx.lineWidth = 5;
+    ctx.moveTo(radius, radius);
+    ctx.lineTo(endX, endY);
+    ctx.stroke();
+    ctx.closePath();
   }); 
   
 
