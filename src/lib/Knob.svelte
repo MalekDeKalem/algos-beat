@@ -36,6 +36,14 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.arc(50, 50, 47, 7 * Math.PI / 10, 23 / 10 * Math.PI);
     ctx.stroke();
     ctx.closePath();
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#D9D9D9";
+    ctx.lineWidth = 3;
+    ctx.moveTo(50, 50);
+    ctx.lineTo(0, 0);
+    ctx.stroke();
+    ctx.closePath();
   }); 
   
 
