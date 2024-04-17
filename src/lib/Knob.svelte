@@ -41,7 +41,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.strokeStyle = "#D9D9D9";
     ctx.lineWidth = 3;
     ctx.moveTo(50, 50);
-    ctx.lineTo(0, 0);
+    ctx.lineTo(22, 85);
     ctx.stroke();
     ctx.closePath();
   }); 
