@@ -17,33 +17,55 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     console.log(num);
   }
 */
-  let border_size = '2px';
-  export let size = '100px';
+  let border_size = 2;
+  export let size = 100;
+
+
+
+  let radius = size / 2;
+
 
   // lifecycle function
   afterUpdate(() => {
     const knob = document.getElementById("knob");
     const ctx = knob.getContext("2d");
+
+  /*
     ctx.beginPath();
     ctx.fillStyle = "#41404E";
-    ctx.arc(50, 50, 50, 0, 2 * Math.PI);
+    ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
     ctx.fill();
     ctx.closePath();
 
     ctx.beginPath();
     ctx.strokeStyle = "#D9D9D9";
     ctx.lineWidth = 3;
-    ctx.arc(50, 50, 47, 7 * Math.PI / 10, 23 / 10 * Math.PI);
+    ctx.arc(radius, radius, 47, 7 * Math.PI / 10, 23 / 10 * Math.PI);
     ctx.stroke();
     ctx.closePath();
 
     ctx.beginPath();
     ctx.strokeStyle = "#D9D9D9";
     ctx.lineWidth = 3;
-    ctx.moveTo(50, 50);
+    ctx.moveTo(radius, radius);
     ctx.lineTo(22, 85);
     ctx.stroke();
     ctx.closePath();
+  */
+    ctx.beginPath();
+    ctx.fillStyle = '#41404E';
+    ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.strokeStyle = '#D9D9D9';
+    ctx.lineWidth = size / 30;
+    ctx.arc(radius, radius, radius - size / 30, 7 * Math.PI / 10, 23 / 10 * Math.PI);
+    ctx.stroke();
+    ctx.closePath();
+
+    
   }); 
   
 
@@ -51,8 +73,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 
 </script>
 
-<canvas id="knob" width="100" height="100" style="--border-size: {border_size}; --size: {size}">
-
+<canvas id="knob" width={`${size}`} height={`${size}`} style="--border-size: {`${border_size}px`}">
 
 </canvas>
 
@@ -63,8 +84,6 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 
   #knob {
     border: var(--border-size) solid #343434;
-    width: var(--size);
-    height: var(--size);
   }
   .slider {
     position: relative;
