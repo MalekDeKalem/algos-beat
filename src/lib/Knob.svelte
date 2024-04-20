@@ -22,20 +22,24 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   export let size = 100;
   export let min = 0;
   export let max = 100;
-  export let value = 2.25;
+  export let value = 1.0;
   export let steps = 10;
 
+  if (value > max) {
+    value = max;
+  } else if (value < min) {
+    value = min;
+  }  
 
+  console.log(value);
 
   let radius = size / 2;
-  let angle = (7 * Math.PI / 10) * (value + 1);
   const startAngle = 7 * Math.PI / 10;
   const endAngle = 23 / 10 * Math.PI;
+  let angle = startAngle + value;
 
-  // -8/5 Math.PI
-
-  let endX = radius + Math.cos(angle) * radius;
-  let endY = radius + Math.sin(angle) * radius;
+  let endX = radius + 45 * Math.cos(angle);
+  let endY = radius + 45 * Math.sin(angle) ;
 
   // lifecycle function
   afterUpdate(() => {
@@ -60,9 +64,17 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     // knob line
     ctx.beginPath();
     ctx.strokeStyle = '#D9D9D9';
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 3;
     ctx.moveTo(radius, radius);
     ctx.lineTo(endX, endY);
+    ctx.stroke();
+    ctx.closePath();
+
+    // green line
+    ctx.beginPath();
+    ctx.strokeStyle = '#2BE127';
+    ctx.lineWidth = size / 30;
+    ctx.arc(radius, radius, radius - size / 30, startAngle, angle);
     ctx.stroke();
     ctx.closePath();
   }); 
