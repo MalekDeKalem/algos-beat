@@ -22,8 +22,9 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   export let size = 100;
   export let min = 0;
   export let max = 100;
-  export let value = 1.0;
+  export let value = 10.0;
   export let steps = 10;
+
 
   if (value > max) {
     value = max;
@@ -31,12 +32,16 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     value = min;
   }  
 
+  const normalizeVal = (minVal: number, maxVal: number, val: number): number => {
+    return (val - minVal) / (maxVal - minVal);
+  }
+
   console.log(value);
 
   let radius = size / 2;
   const startAngle = 7 * Math.PI / 10;
   const endAngle = 23 / 10 * Math.PI;
-  let angle = startAngle + value;
+  let angle = startAngle + normalizeVal(min, max, value) * 5;
 
   let endX = radius + 45 * Math.cos(angle);
   let endY = radius + 45 * Math.sin(angle) ;
