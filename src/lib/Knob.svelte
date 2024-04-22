@@ -8,7 +8,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 /*
   const knob = document.getElementsByClassName('slider');
   let num = 0;
-  
+
   if (knob[0]) {
     knob[0].style.transform = 'rotate(10deg)';
   }
@@ -22,42 +22,55 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   export let size = 100;
   export let min = 0;
   export let max = 100;
-  export let value = 10.0;
+  export let value = 100.0;
   export let steps = 10;
 
-
-  if (value > max) {
-    value = max;
-  } else if (value < min) {
-    value = min;
-  }  
+  // clamping the value so it doesnt go above max or below min value
 
   const normalizeVal = (minVal: number, maxVal: number, val: number): number => {
     return (val - minVal) / (maxVal - minVal);
   }
+  
+  const clamp = (minVal: number, maxVal: number, val: number): number => {
+    if (val > maxVal) {
+      val = maxVal;
+    } else if (val <= minVal) {
+      val = minVal;
+    }
+    return val;
+  }
+
 
   console.log(value);
 
-  let radius = size / 2;
-  const startAngle = 7 * Math.PI / 10;
-  const endAngle = 23 / 10 * Math.PI;
-  let angle = startAngle + normalizeVal(min, max, value) * 5;
+  let radius;
+  let startAngle;
+  let endAngle;
+  let angle;
+  let endX;
+  let endY;
 
-  let endX = radius + 45 * Math.cos(angle);
-  let endY = radius + 45 * Math.sin(angle) ;
 
   // lifecycle function
   afterUpdate(() => {
+    radius = size / 2;
+    startAngle = 7 * Math.PI / 10;
+    endAngle = 23 / 10 * Math.PI;
+    angle = startAngle + normalizeVal(min, max, value) * 5;
+    endX = radius + (size / 2 - size / 30) * Math.cos(angle);
+    endY = radius + (size / 2 - size / 30) * Math.sin(angle);
+
     const knob = document.getElementById("knob");
     const ctx = knob.getContext("2d");
-    
+
+
     // knob body
     ctx.beginPath();
     ctx.fillStyle = '#41404E';
     ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
     ctx.fill();
     ctx.closePath();
-    
+
     // knob ring
     ctx.beginPath();
     ctx.strokeStyle = '#D9D9D9';
@@ -65,11 +78,11 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.arc(radius, radius, radius - size / 30, startAngle, endAngle);
     ctx.stroke();
     ctx.closePath();
-    
+
     // knob line
     ctx.beginPath();
     ctx.strokeStyle = '#D9D9D9';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = size / 30;
     ctx.moveTo(radius, radius);
     ctx.lineTo(endX, endY);
     ctx.stroke();
@@ -82,18 +95,33 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.arc(radius, radius, radius - size / 30, startAngle, angle);
     ctx.stroke();
     ctx.closePath();
-  }); 
+  });
+
+
+  const handleIncrement = () => {
+    value += 1;
+    value = clamp(min, max, value);
+    console.log(`Current value is ${value}`);
+  }
   
+  const handleDecrement = () => {
+    value -= 1;
+    value = clamp(min, max, value);
+    console.log(`Current value is ${value}`);
+  }
+
 
 
 
 </script>
 
+<button on:click={handleDecrement}>Decrement</button>
+
 <canvas id="knob" width={`${size}`} height={`${size}`} style="--border-size: {`${border_size}px`}">
 
 </canvas>
 
-
+<button on:click={handleIncrement}>Increment</button>
 
 
 <style>
