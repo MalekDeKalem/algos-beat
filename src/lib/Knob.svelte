@@ -25,6 +25,8 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   export let value = 100.0;
   export let steps = 10;
 
+  export let updateValue: (number) => void = (newValue) => {};
+
   // clamping the value so it doesnt go above max or below min value
 
   const normalizeVal = (minVal: number, maxVal: number, val: number): number => {
@@ -41,7 +43,6 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   }
 
 
-  console.log(value);
 
   let radius;
   let startAngle;
@@ -61,6 +62,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     endX = radius + (size / 2 - size / 30) * Math.cos(angle);
     endY = radius + (size / 2 - size / 30) * Math.sin(angle);
 
+    console.log(value);
     const knob = document.getElementById("knob");
     const ctx = knob.getContext("2d");
 
@@ -98,38 +100,26 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   });
 
 
-  const handleIncrement = () => {
-    value += 1;
-    value = clamp(min, max, value);
-    console.log(`Current value is ${value}`);
-  }
   
-  const handleDecrement = () => {
-    value -= 1;
-    value = clamp(min, max, value);
-    console.log(`Current value is ${value}`);
-  }
 
   const handleMouseUp = () => {
     isDragging = false;
-    console.log("I am up");
   }
 
   const handleMouseDown = () => {
     isDragging = true; 
-    console.log("I am down");
   }
 
   const handleMouseMove = (event: any) => {
     if (isDragging) {
-      console.log("I am dragging");
       if (mouseY! < event.offsetY) {
-        value -= 1;
+        value -= steps;
       } else if (mouseY > event.offsetY) {
-        value += 1;
+        value += steps;
       }
     }
     value = clamp(min, max, value);
+    updateValue(value);
     mouseY = event.offsetY;
   }
 
@@ -138,16 +128,17 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 
 </script>
 
-<button on:click={handleDecrement}>Decrement</button>
 
 <canvas on:mousemove={handleMouseMove} 
         on:mouseup={handleMouseUp}
         on:mousedown={handleMouseDown}
-        id="knob" width={`${size}`} height={`${size}`} style="--border-size: {`${border_size}px`}">
+        id="knob" 
+        width={`${size}`}
+        height={`${size}`}
+        style="--border-size: {`${border_size}px`}">
 
 </canvas>
 
-<button on:click={handleIncrement}>Increment</button>
 
 
 <style>
