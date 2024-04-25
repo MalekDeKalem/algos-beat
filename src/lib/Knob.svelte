@@ -18,7 +18,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   }
 */
   let border_size = 2;
-
+  let isDragging = false;
   export let size = 100;
   export let min = 0;
   export let max = 100;
@@ -49,6 +49,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   let angle;
   let endX;
   let endY;
+  let mouseY;
 
 
   // lifecycle function
@@ -62,7 +63,6 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 
     const knob = document.getElementById("knob");
     const ctx = knob.getContext("2d");
-
 
     // knob body
     ctx.beginPath();
@@ -110,6 +110,29 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     console.log(`Current value is ${value}`);
   }
 
+  const handleMouseUp = () => {
+    isDragging = false;
+    console.log("I am up");
+  }
+
+  const handleMouseDown = () => {
+    isDragging = true; 
+    console.log("I am down");
+  }
+
+  const handleMouseMove = (event: any) => {
+    if (isDragging) {
+      console.log("I am dragging");
+      if (mouseY! < event.offsetY) {
+        value -= 1;
+      } else if (mouseY > event.offsetY) {
+        value += 1;
+      }
+    }
+    value = clamp(min, max, value);
+    mouseY = event.offsetY;
+  }
+
 
 
 
@@ -117,7 +140,10 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 
 <button on:click={handleDecrement}>Decrement</button>
 
-<canvas id="knob" width={`${size}`} height={`${size}`} style="--border-size: {`${border_size}px`}">
+<canvas on:mousemove={handleMouseMove} 
+        on:mouseup={handleMouseUp}
+        on:mousedown={handleMouseDown}
+        id="knob" width={`${size}`} height={`${size}`} style="--border-size: {`${border_size}px`}">
 
 </canvas>
 
