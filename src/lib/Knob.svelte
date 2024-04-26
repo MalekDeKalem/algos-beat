@@ -27,12 +27,12 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 
   export let updateValue: (number) => void = (newValue) => {};
 
-  // clamping the value so it doesnt go above max or below min value
 
   const normalizeVal = (minVal: number, maxVal: number, val: number): number => {
     return (val - minVal) / (maxVal - minVal);
   }
   
+  // clamping the value so it doesnt go above max or below min value
   const clamp = (minVal: number, maxVal: number, val: number): number => {
     if (val > maxVal) {
       val = maxVal;
@@ -66,6 +66,10 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     const knob = document.getElementById("knob");
     const ctx = knob.getContext("2d");
 
+
+    // Clear canvas
+    ctx.clearRect(0, 0, knob.width, knob.height);
+
     // knob body
     ctx.beginPath();
     ctx.fillStyle = '#41404E';
@@ -97,6 +101,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.arc(radius, radius, radius - size / 30, startAngle, angle);
     ctx.stroke();
     ctx.closePath();
+
   });
 
 
