@@ -17,6 +17,8 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     console.log(num);
   }
 */
+
+  type Polarity = "Unipolar" | "Bipolar";
   let border_size = 2;
   let isDragging = false;
   export let size = 100;
@@ -24,6 +26,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   export let max = 100;
   export let value = 100.0;
   export let steps = 10;
+  export let polarity: Polarity = "Bipolar";
 
   export let updateValue: (number) => void = (newValue) => {};
 
@@ -55,20 +58,19 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 
   // lifecycle function
   afterUpdate(() => {
+    const knob = document.getElementById("knob");
+    const ctx = knob.getContext("2d");
+
+    // Clear canvas
+    ctx.clearRect(0, 0, knob.width, knob.height);
+
+
     radius = size / 2;
     startAngle = 7 * Math.PI / 10;
     endAngle = 23 / 10 * Math.PI;
     angle = startAngle + normalizeVal(min, max, value) * 5;
     endX = radius + (size / 2 - size / 30) * Math.cos(angle);
     endY = radius + (size / 2 - size / 30) * Math.sin(angle);
-
-    console.log(value);
-    const knob = document.getElementById("knob");
-    const ctx = knob.getContext("2d");
-
-
-    // Clear canvas
-    ctx.clearRect(0, 0, knob.width, knob.height);
 
     // knob body
     ctx.beginPath();
@@ -94,14 +96,22 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.stroke();
     ctx.closePath();
 
+    console.log(angle);
+
     // green line
     ctx.beginPath();
-    ctx.strokeStyle = '#2BE127';
-    ctx.lineWidth = size / 30;
-    ctx.arc(radius, radius, radius - size / 30, startAngle, angle);
-    ctx.stroke();
+    if (polarity === 'Unipolar') {
+      ctx.strokeStyle = '#2BE127';
+      ctx.lineWidth = size / 30;
+      ctx.arc(radius, radius, radius - size / 30, startAngle, angle);
+      ctx.stroke();
+    } else if (polarity === 'Bipolar') {
+      ctx.strokeStyle = '#2BE127';
+      ctx.lineWidth = size / 30;
+      ctx.arc(radius, radius, radius - size / 30, value <= max / 2 ? -Math.PI / 2 : 3 / 2 * Math.PI, angle, value <= max / 2);
+      ctx.stroke();
+    }
     ctx.closePath();
-
   });
 
 
@@ -150,58 +160,5 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 
   #knob {
     border: var(--border-size) solid #343434;
-  }
-  .slider {
-    position: relative;
-    width: 10em;
-    height: 10em;
-    border-radius: 50%;
-    background: linear-gradient(0deg, #525252 0%, #373737 100%);
-    box-shadow: 0px -20px 20px #757575, 0px 20px 35px #111111, inset 0px 5px 6px #979797, inset 0px -5px 6px #242424;
-  }
-
-  input[type="range"] {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20em;
-    appearance: slider-vertical;
-    top: 3rem;
-    outline: none;
-    background: transparent;
-  }
-
-  input[type="range"]::-webkit-slider-thumb {
-    background-color: azure;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    box-shadow: 0px 0px 10px #349beb;
-  }
-
-  .knob {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px; /* Adjust knob size as needed */
-    height: 10px; /* Adjust knob size as needed */
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0px 0px 10px #349beb;
-  }
-
-  .slider::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 3px solid #fff;
-    width: 130%;
-    height: 130%;
-    border-radius: 50%;
-    box-shadow: inset 0px 0px 10px #349beb;
   }
 </style>
