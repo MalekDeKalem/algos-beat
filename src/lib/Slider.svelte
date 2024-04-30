@@ -29,10 +29,18 @@
     // Draw Linw
     ctx.beginPath();
     ctx.strokeStyle = "#D9D9D9";
-    ctx.lineWidth = 5;
-    ctx.moveTo(size / 2, size);
-    ctx.lineTo(size / 2, 0);
+    ctx.lineWidth = size / 30;
+    ctx.lineCap = "round";
+    ctx.moveTo(size / 2, size - size / 30);
+    ctx.lineTo(size / 2, 0 + size / 30);
     ctx.stroke();
+    ctx.closePath();
+
+    // slider head
+    ctx.beginPath();
+    ctx.fillStyle = "#D9D9D9";
+    ctx.roundRect(size / 2 - size / 5 / 2, 10, size / 5, size / 5, [5, 5, 5, 5]);
+    ctx.fill();
     ctx.closePath();
   });
 </script>
