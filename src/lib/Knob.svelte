@@ -68,7 +68,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     radius = size / 2;
     startAngle = 7 * Math.PI / 10;
     endAngle = 23 / 10 * Math.PI;
-    angle = startAngle + normalizeVal(min, max, value) * 5;
+    angle = startAngle + normalizeVal(min, max, value) * 5.025;
     endX = radius + (size / 2 - size / 15) * Math.cos(angle);
     endY = radius + (size / 2 - size / 15) * Math.sin(angle);
 

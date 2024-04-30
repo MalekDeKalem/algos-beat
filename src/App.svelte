@@ -10,7 +10,7 @@
 </script>
 
 <div>
-  <Knob min={0} max={100} steps={10} size={50} value={0}  />
+  <Knob min={0} max={100} steps={10} size={500} value={0}  />
 </div>
 
 <style>
