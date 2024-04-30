@@ -69,8 +69,8 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     startAngle = 7 * Math.PI / 10;
     endAngle = 23 / 10 * Math.PI;
     angle = startAngle + normalizeVal(min, max, value) * 5;
-    endX = radius + (size / 2 - size / 30) * Math.cos(angle);
-    endY = radius + (size / 2 - size / 30) * Math.sin(angle);
+    endX = radius + (size / 2 - size / 15) * Math.cos(angle);
+    endY = radius + (size / 2 - size / 15) * Math.sin(angle);
 
     // knob body
     ctx.beginPath();
@@ -83,6 +83,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.beginPath();
     ctx.strokeStyle = '#D9D9D9';
     ctx.lineWidth = size / 30;
+    ctx.lineCap = "round";
     ctx.arc(radius, radius, radius - size / 30, startAngle, endAngle);
     ctx.stroke();
     ctx.closePath();
@@ -91,6 +92,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.beginPath();
     ctx.strokeStyle = '#D9D9D9';
     ctx.lineWidth = size / 30;
+    ctx.lineCap = "round";
     ctx.moveTo(radius, radius);
     ctx.lineTo(endX, endY);
     ctx.stroke();
