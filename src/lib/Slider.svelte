@@ -6,8 +6,8 @@
   let isDragging = false;
   export let size = 100;
   export let min = 0;
-  export let max = 100;
-  export let value = 20.0;
+  export let max = 1.5;
+  export let value = 1.3;
   export let steps = 10;
 
 
@@ -17,16 +17,13 @@
   let mouseY;
   let top;
   let bottom;
-  let headY;
 
 
   afterUpdate(() => {
     const slider = document.getElementById("slider");
     const ctx = slider.getContext("2d");
-
-    headY = normalizeVal(min, max, value) * (max / steps) ;
-
-    console.log(headY)
+    top = size - size / 5 - Math.abs(value - min) * normalizeVal(min, max, value) * ((size - size / 5) / value);
+    top = isNaN(top) ? size - size / 5 : top;
 
 
     ctx.clearRect(0, 0, slider.width, slider.height);
@@ -45,7 +42,7 @@
     // slider head
     ctx.beginPath();
     ctx.fillStyle = "#323232";
-    ctx.roundRect(size / 2 - size / 5 / 2, 0, size / 5, size / 5, [5, 5, 5, 5]);
+    ctx.roundRect(size / 2 - size / 5 / 2, top, size / 5, size / 5, [size / 30, size / 30, size / 30, size / 30]);
     ctx.fill();
     ctx.closePath();
   });

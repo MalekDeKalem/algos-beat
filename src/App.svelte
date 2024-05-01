@@ -11,7 +11,7 @@
 </script>
 
 <div>
-  <Slider />
+  <Slider size={100} />
 </div>
 
 <style>
