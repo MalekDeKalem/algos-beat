@@ -27,7 +27,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   export let max = 100;
   export let value = 100.0;
   export let steps = 10;
-  export let polarity: Polarity = "Bipolar";
+  export let polarity: Polarity = "Unipolar";
 
   export let updateValue: (number) => void = (newValue) => {};
 
