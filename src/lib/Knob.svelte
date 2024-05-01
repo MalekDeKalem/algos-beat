@@ -21,6 +21,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
   type Polarity = "Unipolar" | "Bipolar";
   let border_size = 2;
   let isDragging = false;
+  const epsilon = 1e-9;
   export let size = 100;
   export let min = 0;
   export let max = 100;
@@ -65,6 +66,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.clearRect(0, 0, knob.width, knob.height);
 
 
+
     radius = size / 2;
     startAngle = 7 * Math.PI / 10;
     endAngle = 23 / 10 * Math.PI;
@@ -98,7 +100,8 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     ctx.stroke();
     ctx.closePath();
 
-    console.log(angle);
+    console.log(value);
+    console.log(value - 0 < epsilon);
 
     // green line
     ctx.beginPath();
@@ -110,7 +113,7 @@ import { onMount, beforeUpdate, afterUpdate } from 'svelte'
     } else if (polarity === 'Bipolar') {
       ctx.strokeStyle = '#2BE127';
       ctx.lineWidth = size / 30;
-      ctx.arc(radius, radius, radius - size / 30, value <= max / 2 ? -Math.PI / 2 : 3 / 2 * Math.PI, angle, value <= max / 2);
+      ctx.arc(radius, radius, radius - size / 30, value - Math.floor(max / 2) < epsilon ? -Math.PI / 2 : 3 / 2 * Math.PI, angle, value - Math.floor(max / 2) < epsilon);
       ctx.stroke();
     }
     ctx.closePath();
