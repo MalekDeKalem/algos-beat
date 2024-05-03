@@ -10,7 +10,7 @@
 </script>
 
 <div>
-  <Knob min={-1} max={1} steps={0.1} size={500} value={0}  />
+  <Knob min={-1} max={1} steps={0.1} size={500} value={0} polarity={"Bipolar"}  />
 </div>
 
 <style>
