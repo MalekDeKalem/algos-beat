@@ -11,7 +11,8 @@
 </script>
 
 <div>
-  <Slider size={100} />
+  <Slider size={500} steps={0.1} min={0} max={1.5} value={1.0}  />
+
 </div>
 
 <style>
